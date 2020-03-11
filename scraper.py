@@ -15,9 +15,9 @@ opinions = page_tree.select('li.review-box')
 opinion = opinions[0]
 opinion_id = opinion['data-entry-id']
 author = opinion.select('div-reviewer-name-line')
-recomendation = opinion.select('div.product-review-sumary > em').pop().string
+recomendation = opinion.select('div.product-review-summary > em').pop().string
 stars = opinion.select('span.review-score-count')
-purchased = opinion.select('div.product-review-p2').pop().string
+purchased = opinion.select('div.product-review-pz').pop().string
 useful = opinion.select('button.vote-yes').pop()['data-total-vote']
 useless = opinion.select('button.vote-no').pop()['data-total-vote']
 content = opinion.select('p.product-review-body').pop().get_text()
@@ -28,7 +28,7 @@ print(author)
 print(recomendation)
 print(stars)
 print(useful)
-print(useles)
+print(useless)
 print(content)
 
 
