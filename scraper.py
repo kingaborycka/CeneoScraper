@@ -12,24 +12,43 @@ page_tree = BeautifulSoup(page_response.text,'html.parser')
 
 #wybranie z kodu strony fragmentów odpowiadających poszczególnym opiniom
 opinions = page_tree.select('li.review-box')
-opinion = opinions[0]
-opinion_id = opinion['data-entry-id']
-author = opinion.select('div-reviewer-name-line')
-recomendation = opinion.select('div.product-review-summary > em').pop().string
-stars = opinion.select('span.review-score-count')
-purchased = opinion.select('div.product-review-pz').pop().string
-useful = opinion.select('button.vote-yes').pop()['data-total-vote']
-useless = opinion.select('button.vote-no').pop()['data-total-vote']
-content = opinion.select('p.product-review-body').pop().get_text()
 
 
+for opinion in opinions:
+    opinion_id = opinion['data-entry-id']
+    author = opinion.select('div.reviewer-name-line').pop().string.strip()
+    try:
+        recomendation = opinion.select('div.product-review-summary > em').pop().string
+    except IndexError:
+        recomendation = None
+    stars = opinion.select('span.review-score-count').pop().string.strip()
+    try:
+        purchased = opinion.select('div.product-review-pz').pop().string
+    except IndexError:
+        purchased = None
+    useful = opinion.select('button.vote-yes').pop()['data-total-vote']
+    useless = opinion.select('button.vote-no').pop()['data-total-vote']
+    content = opinion.select('p.product-review-body').pop().get_text().strip()
 
-print(author)
-print(recomendation)
-print(stars)
-print(useful)
-print(useless)
-print(content)
+    # - wady i zalety
+    try:
+        cons = opinion.select('div.cons-cell >ul').pop().get_text().strip()
+    except IndexError:
+        cons = None
+    try:
+        pros = opinion.select('div.pros-cell >ul').pop().get_text().strip()
+    except IndexError:
+        pros = None
+
+    date = opinion.select('span.review-time > time')
+    review_date = date.pop(0)['datetime']
+    try:
+        purchase_date = date.pop(0)['datetime']
+    except IndexError:
+        purchase_date = None
+
+    print(opinion_id,author, recomendation, stars, content, pros, cons, useful, useless, purchased, purchase_date, review_date)
+
 
 
 # opinia: li.review-box
