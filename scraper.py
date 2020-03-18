@@ -11,7 +11,7 @@ page_response = requests.get(url)
 page_tree = BeautifulSoup(page_response.text,'html.parser')
 
 #wybranie z kodu strony fragmentów odpowiadających poszczególnym opiniom
-opinions = page_tree.select('li.review-box')
+opinions = page_tree.select('li.js_product-review')
 
 
 for opinion in opinions:
