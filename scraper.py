@@ -17,7 +17,7 @@ def extract_feature(opinion,selector, attribute = None ):
 #lista składowych opinii wraz z 
 selectors = {
     'author': ['div.reviewer-name-line'],
-    'recomendation':['div.product-review-summary > em'],
+    'recommendation':['div.product-review-summary > em'],
     'stars':['span.review-score-count'],
     'content':['p.product-review-body'],
     'pros': ['div.pros-cell >ul'],
@@ -69,7 +69,7 @@ while url is not None:
         opinions_list.append(features)
     
     try:
-        url = url_prefix + page_tree.select('pagination__next').pop()['href']
+        url = url_prefix + page_tree.select('a.pagination__next').pop()['href']
     except IndexError:
         url = None
     
