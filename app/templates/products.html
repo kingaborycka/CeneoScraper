@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<main role="main">
+    <div class="container" >
+      <table style='margin-top:15%;' class="table table-striped ">
+        <thead>
+          <tr>
+            <th scope="col">Nazwa produktu</th>
+            <th scope="col">Liczba opinii</th>
+            <th scope="col">Średnia ocen</th>
+            <th scope="col">Opinie z wadami</th>
+            <th scope="col">Opinie z zaletami</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="col"><a href='produkt.html'>Nazwa produktu</a></td>
+            <td scope="col">Liczba opinii</td>
+            <td scope="col">Średnia ocen</td>
+            <td scope="col">Opinie z wadami</td>
+            <td scope="col">Opinie z zaletami</td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+
+  </main>
+  {% endblock %}

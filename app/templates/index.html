@@ -1,2 +1,57 @@
-{% extends "layout.html" %}
-{% block content %}ahsdfhdsa{% endblock %}
+{% extends "base.html" %}
+{% block content %}
+<main role="main">
+    <div class="shadow-sm position-relative overflow-hidden p-3 p-md-5 text-center bg-light" id='choice'>
+     <div  class=" col-md-5 p-lg-5 mx-auto my-5">
+       <h2 class="display-4 font-weight-normal">Kupić, czy nie kupić?</h2><br />
+       <p class="lead font-weight-normal">Sprawdź co inni o tym sądzą! <br />Aplikacja pobiera opinie z serwisu Ceneo.pl</p>
+        <a class="btn btn-outline-secondary" href="/extract">Pobierz opinie</a>
+      </div>
+      <div class="product-device shadow-sm d-none d-md-block"></div>
+      <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
+    </div>
+    <div class='row'>
+     <div class='col-8'> 
+       <div class='row'>
+           <div class='col p-3'>
+             <h3 style='margin:2rem;'>Dla każdej opinii pobierane są</h3>
+             <div class='col-5 col-sm-6 '>
+             <ul>
+               <li>identyfikator</li>
+               <li>autor</li>
+               <li>rekomendacja</li>
+               <li>treść opinii</li>
+               <li>liczba osób uznających opinię za przydatną</li>
+               <li>liczba osób uznających opinię za nieprzydatną</li>
+             </ul>
+           </div>    
+           <div class='col-5 col-sm-6'>
+             <ul>
+               <li>lista wad</li>
+               <li>lista zalet</li>
+               <li>liczba gwiazdek</li>
+               <li>czy opinia jest potwierdzona zakupem</li>
+               <li>data wystawienia opinii</li>
+               <li>data zakupu produktu</li> 
+             </ul>
+           </div>
+         </div>
+       </div>
+       </div>
+         <div class='col-4 p-3'>
+           <h3 style='margin:2rem;'>Użyte technologie</h3>
+           <ul>
+             <li>Bootstrap</li>
+             <li>Requests</li>
+             <li>Flask</li>
+             <li>Jinja</li>
+             <li>BeautifulSoup</li>
+             <li>Python</li>
+             <li>JavaScript</li>
+           </ul>
+         </div>
+     </div>
+  </main>
+  </div><hr></div>
+  
+{% endblock %}
