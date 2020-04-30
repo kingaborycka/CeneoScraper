@@ -5,7 +5,7 @@
         <div style='margin-bottom:0!important;margin-top:2rem!important;' class="col-md-5 p-lg-5 mx-auto my-5"> 
             <div class="wrapper ">
                 <div id="formContent">
-                    <form method="POST" action='/'>
+                    <form method="POST" action="{{ url_for('extract') }}">
                         {{form.product_code(size=20,placeholder="ID produktu") }}
                         {{form.submit(class="btn btn-outline-secondary")}}
                     </form>

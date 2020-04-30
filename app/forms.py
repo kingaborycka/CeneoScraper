@@ -1,9 +1,11 @@
+import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length, Regexp
 
 
 class ProductForm(FlaskForm):
+    
     product_code = StringField(
         'Podaj kod produktu',
         validators = [
@@ -13,4 +15,5 @@ class ProductForm(FlaskForm):
         ]
     )
     submit = SubmitField('Pobierz opinie')
+
             
