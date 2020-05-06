@@ -7,6 +7,16 @@
                 <div id="formContent">
                     <form method="POST" action="{{ url_for('extract') }}">
                         {{form.product_code(size=20,placeholder="ID produktu") }}
+                        {% if form.product_code.errors %}
+                        <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                            {%for error in form.product_code.errors %}
+                                <p>{{error}}</p>
+                            {% endfor %}
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        {% endif %}
                         {{form.submit(class="btn btn-outline-secondary")}}
                     </form>
                 </div>

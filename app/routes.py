@@ -22,15 +22,19 @@ def about():
     print(content)
     return render_template('about.html',text=content)
 
-@app.route('/extract', methods=['GET','POST'])
+@app.route('/extract', methods=['POST','GET'])
 def extract():
     form = ProductForm() 
-    if request.method == "POST":
-        return render_template('product.html')
+    if form.validate_on_submit():
+        return "Przesłano formularz"
     return render_template('extract.html',form=form)
 
 @app.route('/products')
 def products():
+    pass
+    
+@app.route('/prosuct/<product_id>')
+def product():    
     return render_template('products.html',)
 
 

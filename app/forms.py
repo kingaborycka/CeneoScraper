@@ -11,7 +11,7 @@ class ProductForm(FlaskForm):
         validators = [
             DataRequired(message = 'Musisz podać kod produktu'),
             Length(min=8,max=8,message='Kod produktu składa się z 8 znaków'),
-            Regexp(regex='[0-9]+',message='Kod produktu może zawierać tylko cyfry')
+            Regexp(regex='^[0-9]+$',message='Kod produktu może zawierać tylko cyfry')
         ]
     )
     submit = SubmitField('Pobierz opinie')
