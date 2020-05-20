@@ -1,8 +1,8 @@
-#import bibliotek 
-import requests 
-from bs4 import BeautifulSoup
-import pprint
-import json
+# #import bibliotek 
+# import requests 
+# from bs4 import BeautifulSoup
+# import pprint
+# import json
 
 #funkcja do ekstrakcji składowych opinii
 def extract_feature(opinion,selector, attribute = None ):

@@ -2,17 +2,17 @@
 # Faza I - pobranie pojedynczej opinii
 - opinia: li.review-box
 - identyfikator: li.review-box["data-entry-id"]
-- autor: div-review-name-line
-- rekomendacja: .product-review-sumary > em
-- liczba gwiazdek: span.review-score-count
-- czy potwierdzina zakupem: div.product-review-pz
+- autor: span.user-post__author-name
+- rekomendacja: span.user-post__author-recomendation > em
+- liczba gwiazdek: span.user-post__score-count
+- czy potwierdzina zakupem: div.review-pz
 - data wystawienia: time['datetime']
 - data zakupu: time['datetime']
 - przydatna: button.vote-yes['data-total-vote']
 - nieprzydatna: button.vote-no['data-total-vote']
-- treść: p.product-review-body
-- wady: div.cons-cell > ul
-- zalety: div.pros-cell > ul
+- treść: div.user-post__text
+- wady: div.review-feature__col:has(div.review-feature__title--negatives)
+- zalety: div.review-feature__col:has(div.review-feature__title--positives)
 # Etap 2 - pobranie wszystkich opinii z pojedynczej strony
 - zapis składotych opinii do złożonej struktury danych
 - Etap 3 - pobranie wszystkich opinii o pojedynczym produkcie

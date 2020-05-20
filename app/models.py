@@ -1,6 +1,8 @@
+import utils
 import requests
 from bs4 import BeautifulSoup
 from enum import Enum, auto
+
 
 class Product:
     def __init__(self, product_id = None, name = None, opinions=[]):
@@ -20,42 +22,48 @@ class Product:
             url_prefix = "https://www.ceneo.pl"
             url_postfix = "#tab=reviews"
             url = url_prefix +'/'+ self.product_id + url_postfix
+            opinions_list = []
             while url :
+                print(url)
                 #pobranie kodu HTML strony z adresu URL
                 page_response = requests.get(url)
                 page_tree = BeautifulSoup(page_response.text,'html.parser')
 
                 #wybranie z kodu strony fragmentów odpowiadających poszczególnym opiniom
-                opinions = page_tree.select('li.js_product-review')
-
+                opinions = page_tree.select('div.js_product-review')
+                print(len(opinions))
                 for opinion in opinions:
                     op = Opinion()
                     op.extract_opinion(opinion)
-                    self.opinions.append(op)
-    
+                    opinions_list.append(op)
                 try:
                     url = url_prefix + page_tree.select('a.pagination__next').pop()['href']
                 except IndexError:
                     url = None
-                
-        
-class Selector(Enum):
-    AUTHOR = ['div.reviewer-name-line']
+                print(len(opinions_list))
+            self.opinions = opinions_list
+            print(len(self.opinions))    
+    def __str__(self):
+        return f'product id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(str(opinion) for opinion in self.opinions)
+    def __repr__(self):
+        pass
+    def save_product(self):
+        pass
 
 class Opinion:
     #lista składowych opinii wraz z 
     selectors = {
-        'author': ['div.reviewer-name-line'],
-        'recommendation':['div.product-review-summary > em'],
-        'stars':['span.review-score-count'],
-        'content':['p.product-review-body'],
-        'pros': ['div.pros-cell >ul'],
-        'cons': ['div.cons-cell >ul'],
-        'useful': ['button.vote-yes','data-total-vote'],
-        'useless': ['button.vote-no','data-total-vote'],
-        'purchased': ['div.product-review-pz'],
-        'purchase_date': ['span.review-time > time:nth-of-type(2)','datetime'],
-        'review_date': ['span.review-time > time:nth-of-type(1)','datetime']
+        "author": ['span.user-post__author-name'],
+        "recommendation":['span.user-post__author-recomendation > em'],
+        "stars":['span.user-post__score-count'],
+        "content": ['div.user-post__text'],
+        "pros": ['div.review-feature__col:has(div.review-feature__title--positives)'],
+        "cons":['div.review-feature__col:has(div.review-feature__title--negatives)'], 
+        "useful":['button.vote-yes', "data-total-vote"],
+        "useless":['button.vote-no', "data-total-vote"],
+        "purchased":['div.review-pz'],
+        "purchase_date":['span.user-post__published > time:nth-of-type(1)',"datetime"],
+        "review_date":['span.user-post__published > time:nth-of-type(2)',"datetime"]
     }
     def __init__(self, opinion_id=None, author = None, recommendation=None, stars=None, content=None,
                 pros=None, cons=None, useful=None, useless=None, purchased=None, purchase_date=None, review_date=None):
@@ -73,14 +81,15 @@ class Opinion:
         self.review_date = review_date
     
     def __str__(self):
-        return f'opinion id: {self.opinion_id}\nauthor: {self.author}\n'
+        return f'opinion id: {self.opinion_id}\nauthor: {self.author}\npros: {self.pros}\n'
 
     def __repr__(self):
         pass
     
     def extract_opinion(self,opinion):
-        features = {key:extract_feature(opinion,*args)
-                    for key, args in selectors.items() }
+        for key, args in self.selectors.items():
+            setattr(self, key, utils.extract_feature(opinion, *args))
+        #self.author = extract_feature(opinion, *self.selectors['author'])
         self.opinion_id = int(opinion['data-entry-id'])
         pass
 
@@ -91,11 +100,13 @@ class Opinion:
         features['content'] = remove_whitespaces(features['content'])
         features['pros'] = remove_whitespaces(features['pros'])
         features['cons'] = remove_whitespaces(features['cons'])
-                
-opinion = Opinion()
-print(opinion)
+        pass
 
-product = Product("39562616")
+opinion = Opinion()
+
+product = Product("79688141")
 product.extract_product()
+for x in product.opinions:
+    print(x)
         
 
