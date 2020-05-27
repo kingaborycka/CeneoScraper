@@ -1,16 +1,10 @@
-# #import bibliotek 
-# import requests 
-# from bs4 import BeautifulSoup
-# import pprint
-# import json
-
 #funkcja do ekstrakcji składowych opinii
 def extract_feature(opinion,selector, attribute = None ):
     try:
         if not attribute:
-            return opinion.select(selector).pop().get_text().strip()
+            return opinion.select(selector).pop(0).get_text().strip()
         else:
-            return opinion.select(selector).pop()[attribute]
+            return opinion.select(selector).pop(0)[attribute]
     except IndexError:
         return None
 

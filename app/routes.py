@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template, request
+from flask import render_template, request, redirect,url_for
 from flaskext.markdown import Markdown
 from app.forms import ProductForm
 from app.models import Product, Opinion
@@ -33,7 +33,8 @@ def extract():
         if page_response.status_code == 200:
             product = Product(request.form['product_code'])
             product.extract_product()
-            return "OK"
+            product.save_product()
+            return redirect(url_for("product", product_id=product.product_id))
         else:
             form.product_code.errors.append("Dla podanego kodu nie ma produktu")
             return render_template('extract.html',form=form)
@@ -43,9 +44,12 @@ def extract():
 def products():
     pass
     
-@app.route('/prosuct/<product_id>')
-def product():    
-    return render_template('products.html',)
+@app.route('/product/<product_id>')
+def product(product_id):   
+    product = Product()
+    product.read_product(product_id)
+    return product
+    # return render_template('product.html',)
 
 
 @app.route('/analyzer/<product_id>')

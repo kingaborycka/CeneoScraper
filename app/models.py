@@ -1,4 +1,5 @@
-import utils
+from app import app
+from app.utils import extract_feature, remove_whitespaces
 import requests
 from bs4 import BeautifulSoup
 from enum import Enum, auto
@@ -36,6 +37,7 @@ class Product:
                 for opinion in opinions:
                     op = Opinion()
                     op.extract_opinion(opinion)
+                    op.transform_opinion()
                     opinions_list.append(op)
                 try:
                     url = url_prefix + page_tree.select('a.pagination__next').pop()['href']
@@ -46,10 +48,28 @@ class Product:
             print(len(self.opinions))    
     def __str__(self):
         return f'product id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(str(opinion) for opinion in self.opinions)
-    def __repr__(self):
-        return '{'+ f'product id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(repr(opinion) for opinion in self.opinions)+'}'
+    def __dict__(self):
+        return {
+            "product id": self.product_id,
+            "product name": self.name,
+            "opinions": [opinion.__dict__() for opinion in self.opinions]
+        }
+
     def save_product(self):
-        pass
+        with open("app/opinions/"+self.product_id+".json",'w',encoding="UTF-8") as fp:
+            json.dump(self.__dict__(),fp, ensure_ascii=False,separators=(',',':'),indent=4)
+    
+    def read_product(self,product_id):
+        with open("app/opinions/"+product_id+".json", 'r') as f:
+            pr = json.loads(f)
+        self.product_id = product_id
+        self.name = pr['name']
+        opinions = pr['opinions']
+        for opinion in opinions:
+            op = Opinion()
+            op.from_dict(opinion)
+            self.opinions.append(op)
+
 
 class Opinion:
     #lista składowych opinii wraz z 
@@ -84,49 +104,37 @@ class Opinion:
     def __str__(self):
         return f'opinion id: {self.opinion_id}\nauthor: {self.author}\nrecommendation: {self.recommendation}\nstars: {self.stars}\ncontent: {self.content}\n{self.pros}\n{self.cons}\nuseful: {self.useful}\nuseless: {self.useless}\npurchased: {self.purchased}\npurchase_date: {self.purchase_date}\nreview_date: {self.review_date}\n'
 
-    def __repr__(self):
-        opinion = {
-            "opinion_id": self.opinion_id,
-            "author": self.author,
-            "recommendation": self.recommendation,
-            "stars" : self.stars,
-            "content" : self.content,
-            "pros" : self.pros,
-            "cons" : self.cons,
-            "useful" : self.useful,
-            "useless" : self.useless,
-            "purchased" : self.purchased,
-            "purchase_date" : self.purchase_date,
-            "review_date" : self.review_date 
-        }
-        opinion = '\n'.join(x for x in str(opinion).split(','))
-        print(type(opinion))
-        
-        return opinion
+    def __dict__(self):
+        features = {key:('' if getattr(self,key) is None else getattr(self,key))
+                    for key in self.selectors.keys()}
+        features['opinion_id'] = self.opinion_id
+        return features
     
     def extract_opinion(self,opinion):
         for key, args in self.selectors.items():
-            setattr(self, key, utils.extract_feature(opinion, *args))
+            setattr(self, key, extract_feature(opinion, *args))
         #self.author = extract_feature(opinion, *self.selectors['author'])
         self.opinion_id = int(opinion['data-entry-id'])
-        pass
 
     def transform_opinion(self):
-        features['purchased'] = True if features['purchased'] =='Opinia potwierdzona zakupem' else False
-        features['useful'] = int(features['useful'])
-        features['useless'] = int(features['useless'])
-        features['content'] = remove_whitespaces(features['content'])
-        features['pros'] = remove_whitespaces(features['pros'])
-        features['cons'] = remove_whitespaces(features['cons'])
-        pass
+        self.purchased = True if self.purchased =='Opinia potwierdzona zakupem' else False
+        self.useful = int(self.useful)
+        self.useless = int(self.useless)
+        self.content = remove_whitespaces(self.content)
+        self.pros = remove_whitespaces(self.pros)
+        self.cons = remove_whitespaces(self.cons)
+    
+    def from_dict(self, opinion_dict):
+        for key, value in opinion_dict.items():
+            setattr(self, key, value)
 
-opinion = Opinion()
 
-product = Product("79688141")
-product.extract_product()
-for x in product.opinions:
-    print(x)
-    print(repr(x))
+# opinion = Opinion()
+
+# product = Product("79688141")
+# product.extract_product()
+# print(product.__dict__())
+# print(json.dumps(dict(product.opinions[0]), indent=4,ensure_ascii=False))
 
         
 
