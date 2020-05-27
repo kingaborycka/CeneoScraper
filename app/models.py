@@ -2,6 +2,7 @@ import utils
 import requests
 from bs4 import BeautifulSoup
 from enum import Enum, auto
+import json
 
 
 class Product:
@@ -46,7 +47,7 @@ class Product:
     def __str__(self):
         return f'product id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(str(opinion) for opinion in self.opinions)
     def __repr__(self):
-        pass
+        return '{'+ f'product id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(repr(opinion) for opinion in self.opinions)+'}'
     def save_product(self):
         pass
 
@@ -81,10 +82,27 @@ class Opinion:
         self.review_date = review_date
     
     def __str__(self):
-        return f'opinion id: {self.opinion_id}\nauthor: {self.author}\npros: {self.pros}\n'
+        return f'opinion id: {self.opinion_id}\nauthor: {self.author}\nrecommendation: {self.recommendation}\nstars: {self.stars}\ncontent: {self.content}\n{self.pros}\n{self.cons}\nuseful: {self.useful}\nuseless: {self.useless}\npurchased: {self.purchased}\npurchase_date: {self.purchase_date}\nreview_date: {self.review_date}\n'
 
     def __repr__(self):
-        pass
+        opinion = {
+            "opinion_id": self.opinion_id,
+            "author": self.author,
+            "recommendation": self.recommendation,
+            "stars" : self.stars,
+            "content" : self.content,
+            "pros" : self.pros,
+            "cons" : self.cons,
+            "useful" : self.useful,
+            "useless" : self.useless,
+            "purchased" : self.purchased,
+            "purchase_date" : self.purchase_date,
+            "review_date" : self.review_date 
+        }
+        opinion = '\n'.join(x for x in str(opinion).split(','))
+        print(type(opinion))
+        
+        return opinion
     
     def extract_opinion(self,opinion):
         for key, args in self.selectors.items():
@@ -108,5 +126,7 @@ product = Product("79688141")
 product.extract_product()
 for x in product.opinions:
     print(x)
+    print(repr(x))
+
         
 
