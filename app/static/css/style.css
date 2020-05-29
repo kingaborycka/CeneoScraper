@@ -57,7 +57,7 @@ input[type=button], input[type=submit], input[type=reset]  {
     box-shadow: 0 30px 60px 0 rgba(0,0,0,0.3);
     text-align: center;
   }
-  input[type=text] {
+  input[type='text'] {
     background-color: #f6f6f6;
     border: none;
     color: #0d0d0d;

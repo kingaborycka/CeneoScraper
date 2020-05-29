@@ -12,13 +12,19 @@
                     <form method="POST" action="{{ url_for('login') }}">
                         {{form.username(size=20,placeholder="login") }}
                         {{form.password(size=20,placeholder="hasło") }}
-                        {{form.submit(class="btn btn-outline-secondary")}}
+                        {% if form.error %}
+                            <div class='alert alert-danger alert-dismissible fade show' role='alert'>
+                                <p>Nieprawidłowa nazwa użytkownika lub hasło.</p>
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                </button>
+                            </div>
+                        {% endif %}
+                        <form method="POST" action="/extract">
+                            {{ form.hidden_tag() }}
+                            {{form.submit(class="btn btn-outline-secondary")}}
+                    
                     </form>
-                    <!-- <form method="POST"> 
-                        <input type="text" id="username" class="fadeIn second" name="login" placeholder="login">
-                        <input type="text" id="password" class="fadeIn third" name="login" placeholder="hasło">
-                        <input type="submit" class="btn btn-outline-secondary" value="Zaloguj się">
-                    </form> -->
                         
                         
                 </div>

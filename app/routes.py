@@ -1,7 +1,7 @@
 from app import app
 from flask import render_template, request, redirect,url_for, session
 from flaskext.markdown import Markdown
-from app.forms import ProductForm, LoginForm
+from app.forms import ProductForm, LoginForm, AccountForm
 from app.models import Product, Opinion
 from app import utils, users
 import requests
@@ -21,27 +21,44 @@ def layout():
 def index():
     return render_template('index.html')
 
-@app.route('/new_account')
+@app.route('/new_account',methods=['GET','POST'])
 def new_account():
-    return render_template('new_account.html')
+    form = AccountForm()
+    if request.method == 'POST' and form.validate_on_submit():
+        print('dane dobre')
+        username = request.form['username']
+        if [x for x in users.users if x.username == username]:
+            form.error = True
+            return render_template('new_account.html',form=form)
+        password = request.form['password']
+        users.users.append(users.User(id=len(users.users),username=username,password=password))
+        return redirect(url_for('accepted'))
+    return render_template('new_account.html',form=form)
 
 @app.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm() 
     if request.method == 'POST':
-        print('jest')
         session.pop('user_id', None)
         username = request.form['username']
         password = request.form['password']
         try:
             user = [x for x in users.users if x.username == username][0]
         except:
+            form.error = True
+            print('False')
             return render_template('login.html',form=form)
         if user and user.password == password:
             session['user_id'] = user.id
             return redirect(url_for('index'))
-        return redirect(url_for('login',form=form))
+        form.error = True
+        print('False')
+        return render_template('login.html',form=form)
     return render_template('login.html',form=form)
+
+@app.route('/accepted')
+def accepted():
+    return render_template('accepted.html')
 
 @app.route('/about')
 def about():
