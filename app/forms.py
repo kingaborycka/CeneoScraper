@@ -1,4 +1,3 @@
-import re
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length, Regexp
@@ -15,5 +14,11 @@ class ProductForm(FlaskForm):
         ]
     )
     submit = SubmitField('Pobierz opinie')
+
+class LoginForm(FlaskForm):
+    username = StringField()
+    password = StringField()
+
+    submit = SubmitField('Zaloguj się')
 
             

@@ -5,7 +5,6 @@ from bs4 import BeautifulSoup
 from enum import Enum, auto
 import json
 
-
 class Product:
     def __init__(self, product_id = None, name = None, opinions=[]):
         self.product_id = product_id
@@ -47,11 +46,11 @@ class Product:
             self.opinions = opinions_list
             print(len(self.opinions))    
     def __str__(self):
-        return f'product id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(str(opinion) for opinion in self.opinions)
+        return f'product_id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(str(opinion) for opinion in self.opinions)
     def __dict__(self):
         return {
-            "product id": self.product_id,
-            "product name": self.name,
+            "product_id": self.product_id,
+            "name": self.name,
             "opinions": [opinion.__dict__() for opinion in self.opinions]
         }
 
@@ -59,9 +58,10 @@ class Product:
         with open("app/opinions/"+self.product_id+".json",'w',encoding="UTF-8") as fp:
             json.dump(self.__dict__(),fp, ensure_ascii=False,separators=(',',':'),indent=4)
     
-    def read_product(self,product_id):
-        with open("app/opinions/"+product_id+".json", 'r') as f:
-            pr = json.loads(f)
+    def read_product(self,product_id): 
+        pr = json.load(open("app/opinions/"+product_id+".json", 'r', encoding='utf-8'))
+        print(pr)
+        
         self.product_id = product_id
         self.name = pr['name']
         opinions = pr['opinions']
@@ -102,7 +102,7 @@ class Opinion:
         self.review_date = review_date
     
     def __str__(self):
-        return f'opinion id: {self.opinion_id}\nauthor: {self.author}\nrecommendation: {self.recommendation}\nstars: {self.stars}\ncontent: {self.content}\n{self.pros}\n{self.cons}\nuseful: {self.useful}\nuseless: {self.useless}\npurchased: {self.purchased}\npurchase_date: {self.purchase_date}\nreview_date: {self.review_date}\n'
+        return f'opinion_id: {self.opinion_id}\nauthor: {self.author}\nrecommendation: {self.recommendation}\nstars: {self.stars}\ncontent: {self.content}\n{self.pros}\n{self.cons}\nuseful: {self.useful}\nuseless: {self.useless}\npurchased: {self.purchased}\npurchase_date: {self.purchase_date}\nreview_date: {self.review_date}\n'
 
     def __dict__(self):
         features = {key:('' if getattr(self,key) is None else getattr(self,key))
@@ -127,14 +127,6 @@ class Opinion:
     def from_dict(self, opinion_dict):
         for key, value in opinion_dict.items():
             setattr(self, key, value)
-
-
-# opinion = Opinion()
-
-# product = Product("79688141")
-# product.extract_product()
-# print(product.__dict__())
-# print(json.dumps(dict(product.opinions[0]), indent=4,ensure_ascii=False))
 
         
 

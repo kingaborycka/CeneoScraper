@@ -1,29 +1,54 @@
 from app import app
-from flask import render_template, request, redirect,url_for
+from flask import render_template, request, redirect,url_for, session
 from flaskext.markdown import Markdown
-from app.forms import ProductForm
+from app.forms import ProductForm, LoginForm
 from app.models import Product, Opinion
+from app import utils, users
 import requests
+
+
 
 app.config['SECRET_KEY'] = "Tajemniczy_kod"
 
-
+Markdown(app)
 
 @app.route('/')
+@app.route('/start')
+def layout():
+    return render_template('start.html')
+
+@app.route('/index')
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.route('/new_account')
+def new_account():
+    return render_template('new_account.html')
+
+@app.route('/login',methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm() 
+    if request.method == 'POST':
+        print('jest')
+        session.pop('user_id', None)
+        username = request.form['username']
+        password = request.form['password']
+        try:
+            user = [x for x in users.users if x.username == username][0]
+        except:
+            return render_template('login.html',form=form)
+        if user and user.password == password:
+            session['user_id'] = user.id
+            return redirect(url_for('index'))
+        return redirect(url_for('login',form=form))
+    return render_template('login.html',form=form)
 
 @app.route('/about')
 def about():
-    content= ''
-    with open("README.md",'r') as f:
+    content = ""
+    with open("README.md", "r",encoding="UTF-8") as f:
         content = f.read()
-    print(content)
-    return render_template('about.html',text=content)
+    return render_template("about.html", text=content)
 
 @app.route('/extract', methods=['POST','GET'])
 def extract():
@@ -38,18 +63,19 @@ def extract():
         else:
             form.product_code.errors.append("Dla podanego kodu nie ma produktu")
             return render_template('extract.html',form=form)
-    return render_template('extract.html',form=form)
+    return render_template('extract.html', form=form)
+    
 
 @app.route('/products')
 def products():
     pass
     
 @app.route('/product/<product_id>')
-def product(product_id):   
+def product(product_id):  
     product = Product()
-    product.read_product(product_id)
-    return product
-    # return render_template('product.html',)
+    print(product.read_product(product_id))
+    return render_template('product.html',)
+
 
 
 @app.route('/analyzer/<product_id>')
