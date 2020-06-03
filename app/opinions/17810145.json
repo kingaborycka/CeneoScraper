@@ -115,6 +115,20 @@
             "opinion_id":8795852
         },
         {
+            "author":"Paulina",
+            "recommendation":"Polecam",
+            "stars":"5/5",
+            "content":"Polecam nie dla profesjonalistów oczywiście ale do zwykłego użytku domowego zdecydowanie wystarczy.",
+            "pros":"",
+            "cons":"",
+            "useful":0,
+            "useless":0,
+            "purchased":true,
+            "purchase_date":"2019-12-24 10:13:13",
+            "review_date":"2019-12-04 10:04:02",
+            "opinion_id":11477902
+        },
+        {
             "author":"Użytkownik Ceneo",
             "recommendation":"",
             "stars":"3,5/5",
@@ -297,6 +311,20 @@
             "opinion_id":4754790
         },
         {
+            "author":"Blanka",
+            "recommendation":"Polecam",
+            "stars":"5/5",
+            "content":"Polecam wszystko zgodnie z opisem",
+            "pros":"",
+            "cons":"",
+            "useful":0,
+            "useless":0,
+            "purchased":true,
+            "purchase_date":"2019-12-10 13:00:40",
+            "review_date":"2019-11-21 14:38:08",
+            "opinion_id":11399702
+        },
+        {
             "author":"rabinio",
             "recommendation":"Polecam",
             "stars":"5/5",
@@ -365,6 +393,34 @@
             "purchase_date":"2016-03-06 18:35:20",
             "review_date":"2016-02-23 11:36:46",
             "opinion_id":3627225
+        },
+        {
+            "author":"Bolesław",
+            "recommendation":"Polecam",
+            "stars":"4/5",
+            "content":"przeciętne.",
+            "pros":"",
+            "cons":"",
+            "useful":0,
+            "useless":0,
+            "purchased":true,
+            "purchase_date":"2020-01-15 19:58:32",
+            "review_date":"2019-12-15 21:10:24",
+            "opinion_id":11456008
+        },
+        {
+            "author":"Teresa",
+            "recommendation":"Polecam",
+            "stars":"5/5",
+            "content":"dobra",
+            "pros":"",
+            "cons":"",
+            "useful":0,
+            "useless":0,
+            "purchased":true,
+            "purchase_date":"2019-12-03 10:24:25",
+            "review_date":"2019-11-12 06:43:34",
+            "opinion_id":11356738
         },
         {
             "author":"Grażyna",
@@ -437,34 +493,6 @@
             "opinion_id":2824638
         },
         {
-            "author":"Paulina",
-            "recommendation":"Polecam",
-            "stars":"5/5",
-            "content":"Polecam nie dla profesjonalistów oczywiście ale do zwykłego użytku domowego zdecydowanie wystarczy.",
-            "pros":"",
-            "cons":"",
-            "useful":0,
-            "useless":0,
-            "purchased":true,
-            "purchase_date":"2019-12-24 10:13:13",
-            "review_date":"2019-12-04 10:04:02",
-            "opinion_id":11477902
-        },
-        {
-            "author":"Blanka",
-            "recommendation":"Polecam",
-            "stars":"5/5",
-            "content":"Polecam wszystko zgodnie z opisem",
-            "pros":"",
-            "cons":"",
-            "useful":0,
-            "useless":0,
-            "purchased":true,
-            "purchase_date":"2019-12-10 13:00:40",
-            "review_date":"2019-11-21 14:38:08",
-            "opinion_id":11399702
-        },
-        {
             "author":"Rafał",
             "recommendation":"Polecam",
             "stars":"5/5",
@@ -477,34 +505,6 @@
             "purchase_date":"2017-11-12 19:19:18",
             "review_date":"",
             "opinion_id":5214776
-        },
-        {
-            "author":"Bolesław",
-            "recommendation":"Polecam",
-            "stars":"4/5",
-            "content":"przeciętne.",
-            "pros":"",
-            "cons":"",
-            "useful":0,
-            "useless":0,
-            "purchased":true,
-            "purchase_date":"2020-01-15 19:58:32",
-            "review_date":"2019-12-15 21:10:24",
-            "opinion_id":11456008
-        },
-        {
-            "author":"Teresa",
-            "recommendation":"Polecam",
-            "stars":"5/5",
-            "content":"dobra",
-            "pros":"",
-            "cons":"",
-            "useful":0,
-            "useless":0,
-            "purchased":true,
-            "purchase_date":"2019-12-03 10:24:25",
-            "review_date":"2019-11-12 06:43:34",
-            "opinion_id":11356738
         },
         {
             "author":"Użytkownik Ceneo",

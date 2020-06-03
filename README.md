@@ -27,16 +27,26 @@
 - wykonanie prostych wykresów
 - Etap 6 - interfejs webowy aplikacji (framework Flask)
 - zainstalowanie i uruchamianie Flask'a
-- struktura aplikacji /CeneoScraper
-- /run.py
-- /config.py
-- /app
-- /init.py /routes.py
-- /models.py
-- /scraper.py /analyzer.py /static/
-- /main.css /figures/ /fig.png /templates/
-- /base.html
-- /opinions /requirements.txt
-- /.venv /README.md
+- struktura aplikacji 
+>/CeneoScraper
+>> /run.py
+>> /config.py
+>> /app
+>>>/init.py 
+>>>/analyzer.py 
+>>>/forms.py
+>>>/routes.py
+>>>/models.py
+>>>/utils.py
+>>>/static/
+>>>>/main.css 
+>>>>/figures/ 
+>>>>>/fig.png 
+>>>/templates/
+>>>>/base.html
+>>>/opinions 
+>>/requirements.txt
+>>/.venv 
+>>/README.md
 - routing (nawigowanie po stronach serwisu)
 - widoki (Jinja)

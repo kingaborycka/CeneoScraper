@@ -58,16 +58,14 @@ class Product:
         with open("app/opinions/"+self.product_id+".json",'w',encoding="UTF-8") as fp:
             json.dump(self.__dict__(),fp, ensure_ascii=False,separators=(',',':'),indent=4)
     
-    def read_product(self,product_id): 
-        pr = json.load(open("app/opinions/"+product_id+".json", 'r', encoding='utf-8'))
+    def read_product(self): 
+        pr = json.load(open("app/opinions/"+self.product_id+".json", 'r', encoding='utf-8'))
         print(pr)
         
-        self.product_id = product_id
         self.name = pr['name']
         opinions = pr['opinions']
         for opinion in opinions:
-            op = Opinion()
-            op.from_dict(opinion)
+            op = Opinion(**opinion)
             self.opinions.append(op)
 
 
@@ -102,7 +100,8 @@ class Opinion:
         self.review_date = review_date
     
     def __str__(self):
-        return f'opinion_id: {self.opinion_id}\nauthor: {self.author}\nrecommendation: {self.recommendation}\nstars: {self.stars}\ncontent: {self.content}\n{self.pros}\n{self.cons}\nuseful: {self.useful}\nuseless: {self.useless}\npurchased: {self.purchased}\npurchase_date: {self.purchase_date}\nreview_date: {self.review_date}\n'
+        return '\n'.join(key+': '+('' if getattr(self,key) is None else str(getattr(self,key))) for key in self.selectors.keys())
+        # return f'opinion_id: {self.opinion_id}\nauthor: {self.author}\nrecommendation: {self.recommendation}\nstars: {self.stars}\ncontent: {self.content}\n{self.pros}\n{self.cons}\nuseful: {self.useful}\nuseless: {self.useless}\npurchased: {self.purchased}\npurchase_date: {self.purchase_date}\nreview_date: {self.review_date}\n'
 
     def __dict__(self):
         features = {key:('' if getattr(self,key) is None else getattr(self,key))
@@ -121,9 +120,15 @@ class Opinion:
         self.useful = int(self.useful)
         self.useless = int(self.useless)
         self.content = remove_whitespaces(self.content)
-        self.pros = remove_whitespaces(self.pros)
-        self.cons = remove_whitespaces(self.cons)
-    
+        try:
+            self.pros = remove_whitespaces(self.pros).replace('Zalety. ','')
+        except AttributeError:
+            pass
+        try:
+            self.cons = remove_whitespaces(self.cons).replace('Wady. ','')
+        except AttributeError:
+            pass
+
     def from_dict(self, opinion_dict):
         for key, value in opinion_dict.items():
             setattr(self, key, value)

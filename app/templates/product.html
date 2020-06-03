@@ -1,28 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
-    <main role="main">
+    <main role="main" style='margin-top:5rem;'>
         <div class="container" >
-            <table style='margin-top:15%;' class="table table-striped ">
-                <tbody>
-                    <thead>
-                        <tr>
-                            <th scope="col">Autor</th>
-                            <th scope="col">Rekomendacja</th>
-                            <th scope="col">Ocena</th>
-                            <th scope="col">Zaufana opinia</th>
-                            <th scope="col">Data wystawienia</th>
-                            <th scope="col">Data zakupu</th>
-                            <th scope="col">Opinia uznana za przydatną</th>
-                            <th scope="col">Opinia uznana za nieprzydatną</th>
-                            <th scope="col">Treść</th>
-                            <th scope="col">Wady</th>
-                            <th scope="col">Zalety</th>
-                        </tr>
-                    </thead>
-        
-                </tbody>
-            </table>
+            {% for table in tables %}
+                {{ table|safe}}
+            {% endfor %}       
         </div>
-
     </main>
-  {% endblock %}
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready( function () {
+            $('#opinions').DataTable()
+            } );
+    </script>
+{% endblock %}

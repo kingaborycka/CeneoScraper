@@ -5,6 +5,7 @@ from app.forms import ProductForm, LoginForm, AccountForm
 from app.models import Product, Opinion
 from app import utils, users
 import requests
+import pandas as pd
 
 
 
@@ -89,9 +90,16 @@ def products():
     
 @app.route('/product/<product_id>')
 def product(product_id):  
-    product = Product()
-    print(product.read_product(product_id))
-    return render_template('product.html',)
+    product = Product(product_id)
+    product.read_product()
+    opinions = pd.DataFrame.from_records([opinion.__dict__() for opinion in product.opinions])
+    opinions["stars"] = opinions["stars"].map(lambda x: float(x.split("/")[0].replace(",", ".")))
+    return render_template('product.html', tables=[
+        opinions.to_html(
+            classes="table table-striped table-sm table-responsive",
+            table_id='opinions'
+        )
+    ])
 
 
 
