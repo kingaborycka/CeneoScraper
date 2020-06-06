@@ -4,8 +4,6 @@
     background-size:cover;
     
 }
-
-
 #footer{
     text-align: center;
 }
@@ -80,4 +78,14 @@ input[type='text'] {
 }
 table.dataTable {
   font-size: 10.5px!important;
+  border: 0!important;
+
+}
+table.dataTable thead {
+  width: inherit;
+  text-align: center;
+}
+#product_name{
+  text-align: center!important;
+  margin-top: 7rem!important;
 }

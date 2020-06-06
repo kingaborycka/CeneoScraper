@@ -3,10 +3,12 @@ class User:
         self.id = id
         self.username = username
         self.password = password
+        self.products = {}
     
     def __repr__(self):
         return f'<User: {self.username}>'
 
 
 users = [] 
-users.append(User(id=2,username='admin',password = '123'))  
+admin = User(id=1,username='admin',password = '123')
+users.append(admin)  

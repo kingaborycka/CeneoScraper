@@ -1,29 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
-<main role="main">
-    <div class="container" >
-      <table style='margin-top:15%;' class="table table-striped ">
-        <thead>
-          <tr>
-            <th scope="col">Nazwa produktu</th>
-            <th scope="col">Liczba opinii</th>
-            <th scope="col">Średnia ocen</th>
-            <th scope="col">Opinie z wadami</th>
-            <th scope="col">Opinie z zaletami</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td scope="col"><a href='produkt.html'>Nazwa produktu</a></td>
-            <td scope="col">Liczba opinii</td>
-            <td scope="col">Średnia ocen</td>
-            <td scope="col">Opinie z wadami</td>
-            <td scope="col">Opinie z zaletami</td>
-          </tr>
-        </tbody>
-      </table>
-      
-    </div>
-
-  </main>
-  {% endblock %}
+    <main role="main" style='margin-top:5rem;'>
+        <div class="container" >
+            {% for table in tables %}
+                {{ table|safe}}
+            {% endfor %}       
+        </div>
+    </main>
+{% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready( function () {
+            $('#example').DataTable()
+            $('#example_filter').remove()
+            $('#example tbody tr td ').hover(
+                function(){
+                    $(this).css('font-weight',700)
+                },function(){
+                    $(this).css('font-weight',400)
+                })
+            $('#example tbody').on('click', 'tr td:nth-of-type(1)',function(){
+                var id = $(this).prev().text()  
+                window.location = 'product_page/'+id;
+            })
+        });
+    </script>
+{% endblock %}

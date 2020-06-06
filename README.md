@@ -29,9 +29,9 @@
 - zainstalowanie i uruchamianie Flask'a
 - struktura aplikacji 
 >/CeneoScraper
->> /run.py
->> /config.py
->> /app
+>>/run.py
+>>/config.py
+>>/app
 >>>/init.py 
 >>>/analyzer.py 
 >>>/forms.py

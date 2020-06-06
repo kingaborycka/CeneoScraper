@@ -10,16 +10,22 @@ class Product:
         self.product_id = product_id
         self.name = name
         self.opinions = opinions
+        self.cons_count=0
+        self.pros_count=0
+        self.stars_count=0
+        self.average_mark=None
+        self.opinions_count = 0
+        
     
     def extract_product(self):
         page_response = requests.get("https://www.ceneo.pl/"+ self.product_id)
         page_tree = BeautifulSoup(page_response.text,'html.parser')
         self.name = page_tree.select("h1.product-name").pop().get_text().strip()
         try:
-            opinions_count = int(page_tree.select("a.product-reviews-link > span").pop().get_text().strip())
-        except IndexError:
-            opinions_count = 0
-        if opinions_count > 0:
+            self.opinions_count = int(page_tree.select("a.product-reviews-link > span").pop().get_text().strip())
+        except:
+            pass
+        if self.opinions_count > 0:
             url_prefix = "https://www.ceneo.pl"
             url_postfix = "#tab=reviews"
             url = url_prefix +'/'+ self.product_id + url_postfix
@@ -29,28 +35,55 @@ class Product:
                 #pobranie kodu HTML strony z adresu URL
                 page_response = requests.get(url)
                 page_tree = BeautifulSoup(page_response.text,'html.parser')
-
                 #wybranie z kodu strony fragmentów odpowiadających poszczególnym opiniom
                 opinions = page_tree.select('div.js_product-review')
-                print(len(opinions))
                 for opinion in opinions:
                     op = Opinion()
                     op.extract_opinion(opinion)
                     op.transform_opinion()
                     opinions_list.append(op)
+                    try:
+                        if op.cons:
+                            print(op.cons)
+                            self.cons_count += 1
+                            print(self.cons_count)
+                    except AttributeError:
+                        pass
+                    try:
+                        if op.pros:
+                            self.pros_count += 1
+                    except AttributeError:
+                        pass
+                    try:
+                        self.stars_count += float(op.stars.split('/')[0].replace(',','.'))
+                    except:
+                        pass
                 try:
                     url = url_prefix + page_tree.select('a.pagination__next').pop()['href']
                 except IndexError:
                     url = None
-                print(len(opinions_list))
+            self.opinions = opinions_list  
+        else:
+            opinions_list = []
+            opinions_list.append(Opinion('',None,None,'0/5',None,0,0))
             self.opinions = opinions_list
-            print(len(self.opinions))    
+            print('Nie ma opinii')
+        try:
+            self.average_mark = round(self.stars_count/self.opinions_count,1)
+        except:
+            self.average_mark = 'Brak'
+        print('Ilość opinii:',self.opinions_count)  
+
     def __str__(self):
         return f'product_id: {self.product_id}\n nazwa: {self.name}\n\n'+'\n'.join(str(opinion) for opinion in self.opinions)
     def __dict__(self):
         return {
             "product_id": self.product_id,
             "name": self.name,
+            "opinions_count": self.opinions_count,
+            "cons_count": self.cons_count,
+            "pros_count":self.pros_count,
+            "average_mark":self.average_mark,
             "opinions": [opinion.__dict__() for opinion in self.opinions]
         }
 
@@ -64,6 +97,11 @@ class Product:
         
         self.name = pr['name']
         opinions = pr['opinions']
+        self.opinions = []
+        self.opinions_count = pr['opinions_count']
+        self.cons_count = pr['cons_count']
+        self.pros_count = pr['pros_count']
+        self.average_mark = pr['average_mark']
         for opinion in opinions:
             op = Opinion(**opinion)
             self.opinions.append(op)
@@ -121,17 +159,15 @@ class Opinion:
         self.useless = int(self.useless)
         self.content = remove_whitespaces(self.content)
         try:
-            self.pros = remove_whitespaces(self.pros).replace('Zalety. ','')
+            self.pros = remove_whitespaces(self.pros).replace('Zalety.','')
         except AttributeError:
             pass
         try:
-            self.cons = remove_whitespaces(self.cons).replace('Wady. ','')
+            self.cons = remove_whitespaces(self.cons).replace('Wady.','')
         except AttributeError:
             pass
 
     def from_dict(self, opinion_dict):
         for key, value in opinion_dict.items():
             setattr(self, key, value)
-
-        
 

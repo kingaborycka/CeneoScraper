@@ -2,6 +2,7 @@
 {% block content %}
     <main role="main" style='margin-top:5rem;'>
         <div class="container" >
+            <h3 id='product_name'>{{name}}</h3>
             {% for table in tables %}
                 {{ table|safe}}
             {% endfor %}       
@@ -11,7 +12,8 @@
 {% block scripts %}
     <script>
         $(document).ready( function () {
-            $('#opinions').DataTable()
+            $('#example').DataTable()
+            $('#example_filter').remove()
             } );
     </script>
 {% endblock %}
