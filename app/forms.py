@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, HiddenField
+from wtforms import StringField, SubmitField, PasswordField
 from wtforms.validators import DataRequired, Length, Regexp, EqualTo
 from app import users
 
@@ -23,7 +23,7 @@ class LoginForm(FlaskForm):
             DataRequired(message = 'Musisz podać nazwę użytkownika'),
         ]
     )
-    password = StringField(
+    password = PasswordField(
         "Hasło",
         validators = [
                 DataRequired(message = 'Podaj hasło'),
@@ -39,13 +39,13 @@ class AccountForm(FlaskForm):
         ]
     )
 
-    password = StringField('Podaj hasło',
+    password = PasswordField('Podaj hasło',
         validators = [
             DataRequired(message = 'Podaj hasło')
         ]
     )
 
-    password2 = StringField('Powtórz hasło',
+    password2 = PasswordField('Powtórz hasło',
         validators = [
             DataRequired(message = 'Powtórz hasło'),
             EqualTo('password',message='Hasła nie są takie same.')
