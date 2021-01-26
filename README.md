@@ -50,3 +50,8 @@
 >>/README.md
 - routing (nawigowanie po stronach serwisu)
 - widoki (Jinja)
+************************************************************
+IN TERMINAL:
+.venv/Scripts/activate
+flask run
+************************************************************
