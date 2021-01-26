@@ -51,7 +51,7 @@
 - routing (nawigowanie po stronach serwisu)
 - widoki (Jinja)
 ************************************************************
-#IN TERMINAL:
+IN TERMINAL:
 - .venv/Scripts/activate 
 - flask run
 ************************************************************
